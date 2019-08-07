@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private projectService: ProjectService,
     private router: Router,
     private hmiService: HmiService,
-    private gaugesManager: GaugesManager) { }
+    public gaugesManager: GaugesManager) { }
 
   ngOnInit() {
     try {

@@ -29,7 +29,7 @@ export class LabComponent implements OnInit, AfterViewInit {
     @ViewChild('tester') tester: TesterComponent;
 
     constructor(private projectService: ProjectService,
-        private gaugesManager: GaugesManager,
+        public gaugesManager: GaugesManager,
         private testerService: TesterService) {
     }
 
