@@ -3,7 +3,7 @@ import { Subscription } from "rxjs/Subscription";
 
 import { DeviceListComponent } from './device-list/device-list.component';
 import { DeviceMapComponent } from './device-map/device-map.component';
-import { Device } from './../_models/device';
+import { Device, DeviceStatus } from './../_models/device';
 import { ProjectService } from '../_services/project.service';
 import { HmiService } from '../_services/hmi.service';
 
@@ -37,7 +37,7 @@ export class DeviceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.deviceMap.loadCurrentProject();
       // this.deviceList.loadCurrentProject();
     });
-    this.subscriptionDeviceChange = this.hmiService.onDeviceChanged.subscribe(event => {
+    this.subscriptionDeviceChange = this.hmiService.onDeviceChanged.subscribe((event: DeviceStatus) => {
       this.deviceMap.setDeviceStatus(event);
     });
     this.subscriptionVariableChange = this.hmiService.onVariableChanged.subscribe(event => {

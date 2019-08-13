@@ -5,7 +5,12 @@ export class Device {
     enabled: boolean;
     property: any;
     type: DeviceType;
-    tags: any;
+    tags: { [index: string]: Tag;};
+}
+
+export class DeviceStatus {
+    id: string;
+    status: string;
 }
 
 export class Tag {
@@ -29,7 +34,8 @@ export class DeviceNetProperty {
 export enum DeviceType {
     FuxaServer = 'FuxaServer',
     SiemensS7 = 'SiemensS7',
-    OPCUA = 'OPCUA'
+    OPCUA = 'OPCUA',
+    Kingdee = 'Kingdee'
 }
 
 export enum TagType {

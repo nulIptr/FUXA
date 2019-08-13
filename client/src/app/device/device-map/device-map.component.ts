@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 
 import { DevicePropertyComponent } from './../device-property/device-property.component';
 import { ProjectService } from '../../_services/project.service';
-import { Device, DeviceType, DeviceNetProperty } from './../../_models/device';
+import { Device, DeviceType, DeviceNetProperty, DeviceStatus } from './../../_models/device';
 import { Utils } from '../../_helpers/utils';
 
 @Component({
@@ -162,12 +162,12 @@ export class DeviceMapComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  setDeviceStatus(event) {
+  setDeviceStatus(event: DeviceStatus) {
     console.log('device set: ' + event.id + ' ' + event.status);
     this.devicesStatus[event.id] = event.status;
   }
 
-  editDevice(device: Device, toremove: boolean) {
+   editDevice(device: Device, toremove: boolean) {
     // console.log('The Edit Device open');
     let tempdevice = JSON.parse(JSON.stringify(device));
     let dialogRef = this.dialog.open(DevicePropertyComponent, {

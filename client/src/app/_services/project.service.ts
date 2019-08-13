@@ -25,7 +25,7 @@ export class ProjectService {
 
     private prjresource = 'prj-data';
     private endPointConfig: string = EndPointApi.getURL(); //"http://localhost:1881";
-    private projectOld: string = '';
+    private projectOld = '';
 
     constructor(private http: HttpClient,
         private toastr: ToastrService) {
@@ -75,12 +75,12 @@ export class ProjectService {
                         prj => {
                             this.projectData = prj;
                         }, err => {
-                    });                      
+                    });
                     // load demo from server
                     // this.getDemoProject().subscribe(prj => {
                     //     this.projectData = prj;
                     // }, err => {
-                    //     console.log(err);                      
+                    //     console.log(err);
                     // });
                 } else {
                     this.projectData = new ProjectData();
@@ -222,7 +222,7 @@ export class ProjectService {
         //                 }
         //                 hmi.devices[view.items[key].property.variableSrc] = device;
         //             }
-        //             // let tag = 
+        //             // let tag =
         //         }
         //         // alarm
         //     }
@@ -302,18 +302,18 @@ export class ProjectService {
         } else {
             try {
                 for (const p in x) {
-                    console.log(p);
                     if (!x.hasOwnProperty(p)) {
                         continue; // other properties were tested using x.constructor === y.constructor
                     }
                     if (!y.hasOwnProperty(p)) {
                         return false; // allows to compare x[ p ] and y[ p ] when set to undefined
                     }
+                    console.log(p);
                     if (p === 'svgcontent') {
                         // the xml have to be transform in json
                         const parser = new DOMParser();  // initialize dom parser
-                        const aDOM = parser.parseFromString(x[p], "text/xml")
-                        const bDOM = parser.parseFromString(y[p], "text/xml")
+                        const aDOM = parser.parseFromString(x[p], 'text/xml')
+                        const bDOM = parser.parseFromString(y[p], 'text/xml')
                         let a = this._xml2json(aDOM);
                         let b = this._xml2json(bDOM);
                         return this._deepEquals(a, b);
@@ -339,20 +339,20 @@ export class ProjectService {
     }
 
     /**
-     * This function coverts a DOM Tree into JavaScript Object. 
-     * @param srcDOM: DOM Tree to be converted. 
+     * This function coverts a DOM Tree into JavaScript Object.
+     * @param srcDOM: DOM Tree to be converted.
      */
     _xml2json(xml) {
         // Create the return object
-        var obj = {};
+        let obj = {};
 
         if (xml.nodeType == 1) { // element
             // do attributes
             if (xml.attributes.length > 0) {
-                obj["@attributes"] = {};
-                for (var j = 0; j < xml.attributes.length; j++) {
-                    var attribute = xml.attributes.item(j);
-                    obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+                obj['@attributes'] = {};
+                for (let j = 0; j < xml.attributes.length; j++) {
+                    let attribute = xml.attributes.item(j);
+                    obj['@attributes'][attribute.nodeName] = attribute.nodeValue;
                 }
             }
         } else if (xml.nodeType == 3) { // text
@@ -361,14 +361,14 @@ export class ProjectService {
 
         // do children
         if (xml.hasChildNodes()) {
-            for (var i = 0; i < xml.childNodes.length; i++) {
-                var item = xml.childNodes.item(i);
-                var nodeName = item.nodeName;
-                if (typeof (obj[nodeName]) == "undefined") {
+            for (let i = 0; i < xml.childNodes.length; i++) {
+                let item = xml.childNodes.item(i);
+                let nodeName = item.nodeName;
+                if (typeof (obj[nodeName]) == 'undefined') {
                     obj[nodeName] = this._xml2json(item);
                 } else {
-                    if (typeof (obj[nodeName].push) == "undefined") {
-                        var old = obj[nodeName];
+                    if (typeof (obj[nodeName].push) == 'undefined') {
+                        let old = obj[nodeName];
                         obj[nodeName] = [];
                         obj[nodeName].push(old);
                     }
@@ -381,9 +381,9 @@ export class ProjectService {
 }
 
 export class ProjectData {
-    version: string = "1.00"
+    version = '1.00'
     projectFile: string;
     server: Device = new Device();
     hmi: Hmi = new Hmi();
-    devices = {};
+    devices: { [index: string]: Device } = {};
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@
 import { ViewChild, ElementRef } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
 
-import { Hmi, View, GaugeSettings, Event, GaugeEventActionType } from '../_models/hmi';
+import { Hmi, View, GaugeSettings, Event, GaugeEventActionType, Variable } from '../_models/hmi';
 import { GaugesManager } from '../gauges/gauges.component';
 
 declare var SVG: any;
@@ -75,17 +75,19 @@ export class FuxaViewComponent implements OnInit, AfterViewInit {
     if (view && view.items) {
       // this.gaugesManager.initGaugesMap();
       for (let key in view.items) {
-        console.log(key);
-        this.gaugesManager.bindGauge(this.id, view.items[key],
-          (gatobindclick) => {
-            this.onBindClick(gatobindclick);
-          },
-          (gatobindhtmlevent) => {
-            this.onBindHtmlEvent(gatobindhtmlevent);
-          });
+        if (view.items[key]) {
+         console.log(key);
+         this.gaugesManager.bindGauge(this.id, view.items[key],
+           (gatobindclick) => {
+             this.onBindClick(gatobindclick);
+           },
+           (gatobindhtmlevent) => {
+             this.onBindHtmlEvent(gatobindhtmlevent);
+           });
+       }
       }
       let self = this;
-      this.subscriptionOnChange = this.gaugesManager.onchange.subscribe(sig => {
+      this.subscriptionOnChange = this.gaugesManager.onchange.subscribe((sig: Variable) => {
         console.log('lab sig ' + sig.id + ' ' + sig.value);
         try {
           let gas = self.gaugesManager.getGaugeSettings(self.id, sig.id);

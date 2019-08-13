@@ -1,39 +1,35 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import { Observable } from "rxjs/Observable";
-import * as io from 'socket.io-client';
+import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../environments/environment';
-import { Device } from '../_models/device';
+import { Device, DeviceStatus } from '../_models/device';
 import { Hmi, Variable, GaugeSettings } from '../_models/hmi';
 import { ProjectService } from '../_services/project.service';
 import { EndPointApi } from '../_helpers/endpointapi';
 import { ToastrService } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class HmiService {
 
     // @Output() onSaveCurrent: EventEmitter<boolean> = new EventEmitter();
     @Output() onVariableChanged: EventEmitter<Variable> = new EventEmitter();
-    @Output() onDeviceChanged: EventEmitter<boolean> = new EventEmitter();
+    @Output() onDeviceChanged: EventEmitter<DeviceStatus> = new EventEmitter();
     @Output() onDeviceBrowse: EventEmitter<any> = new EventEmitter();
     @Output() onDeviceNodeAttribute: EventEmitter<any> = new EventEmitter();
 
-    public version = "1.00";
+    public version = '1.00';
     public static separator = '^~^';
     public hmi: Hmi;
-    hmiresource: string = "hmi-config";
+    hmiresource = 'hmi-config';
     viewSignalGaugeMap = new ViewSignalGaugeMap();
     devices = {};
     variables = {};
-    private socket;
-    private endPointConfig: string = EndPointApi.getURL();//"http://localhost:1881";
+    private endPointConfig: string = EndPointApi.getURL(); //"http://localhost:1881";
 
-    constructor(private projectService: ProjectService,
+    constructor(private http: HttpClient,
+        private projectService: ProjectService,
         private toastr: ToastrService) {
-        if (environment.serverEnabled) {
-            this.initSocket();
-        }
     }
 
     /**
@@ -43,7 +39,7 @@ export class HmiService {
      */
     setSignalValue(sig: Variable) {
         // console.log('end set ' + sig.id + ' ' + sig.value);
-        // update the signals array value 
+        // update the signals array value
 
         // notify the gui
         this.onVariableChanged.emit(sig);
@@ -52,16 +48,19 @@ export class HmiService {
     /**
      * Set signal value to backend
      * Value input in frontend
-     * @param sigId 
-     * @param value 
+     * @param sigId
+     * @param value
      */
     putSignalValue(sigId: string, value: string) {
         console.log('put ' + sigId + ' ' + value);
         if (this.variables[sigId]) {
             this.variables[sigId].value = value;
-            if (this.socket) {
-                this.socket.emit('device-values', { cmd: 'set', var: this.variables[sigId] });
-            }
+            // if (this.socket) {
+            //     this.socket.emit('device-values', { cmd: 'set', var: this.variables[sigId] });
+            // }
+
+            let sub = this.http.put<any>(this.endPointConfig + 'device-values', { params: { cmd: 'set', var: this.variables[sigId] } })
+                .subscribe()
             // this.onVariableChanged.emit(this.variables[sigId]);
         }
     }
@@ -72,59 +71,83 @@ export class HmiService {
      */
     public initSocket() {
         // check to init socket io
-        if (!this.socket) {
-            this.socket = io(this.endPointConfig);
-            // devicse status
-            this.socket.on('device-status', (message) => {
-                this.onDeviceChanged.emit(message);
-                if (message.status === 'connect-error') {
-                    this.toastr.error('Device "' + message.id + '" connection error!', '', {
-                        timeOut: 3000,
-                        closeButton: true,
-                        // disableTimeOut: true
-                    });
-                }
-                // console.log('dev-st ' + message);
-            });
-            // devices values
-            this.socket.on('device-values', (message) => {
-                for (let idx = 0; idx < message.values.length; idx++) {
-                    let varid = message.id + HmiService.separator + message.values[idx].id;
-                    if (!this.variables[varid]) {
-                        this.variables[varid] = new Variable(varid, message.id, message.values[idx].id);
-                    }
-                    this.variables[varid].value = message.values[idx].value;
-                    this.setSignalValue(this.variables[varid]);
-                }
-            });
-            // device browse
-            this.socket.on('device-browse', (message) => {
-                this.onDeviceBrowse.emit(message);
-            });
-            // device node attribute
-            this.socket.on('device-node-attribute', (message) => {
-                this.onDeviceNodeAttribute.emit(message);
-            });
-            this.askDeviceValues();
-        }
+        // if (!this.socket) {
+        //     this.socket = io(this.endPointConfig);
+        //     // devicse status
+        //     this.socket.on('device-status', (message) => {
+        //         this.onDeviceChanged.emit(message);
+        //         if (message.status === 'connect-error') {
+        //             this.toastr.error('Device "' + message.id + '" connection error!', '', {
+        //                 timeOut: 3000,
+        //                 closeButton: true,
+        //                 // disableTimeOut: true
+        //             });
+        //         }
+        //         // console.log('dev-st ' + message);
+        //     });
+
+        //     // devices values
+        //     this.socket.on('device-values', (message) => {
+        //         for (let idx = 0; idx < message.values.length; idx++) {
+        //             let varid = message.id + HmiService.separator + message.values[idx].id;
+        //             if (!this.variables[varid]) {
+        //                 this.variables[varid] = new Variable(varid, message.id, message.values[idx].id);
+        //             }
+        //             this.variables[varid].value = message.values[idx].value;
+        //             this.setSignalValue(this.variables[varid]);
+        //         }
+        //     });
+        //     // device browse
+        //     this.socket.on('device-browse', (message) => {
+        //         this.onDeviceBrowse.emit(message);
+        //     });
+        //     // device node attribute
+        //     this.socket.on('device-node-attribute', (message) => {
+        //         this.onDeviceNodeAttribute.emit(message);
+        //     });
+        // }
+        this.askDeviceValues();
     }
 
     /**
      * Ask device status to backend
      */
     public askDeviceStatus() {
-        if (this.socket) {
-            this.socket.emit('device-status', 'get');
-        }
+        // if (this.socket) {
+        //     this.socket.emit('device-status', 'get');
+        // }
+
+
+        let sub = this.http.get<any>(this.endPointConfig + 'device-values').subscribe((message) => {
+            for (let idx = 0; idx < message.values.length; idx++) {
+                let varid = message.id + HmiService.separator + message.values[idx].id;
+                if (!this.variables[varid]) {
+                    this.variables[varid] = new Variable(varid, message.id, message.values[idx].id);
+                }
+                this.variables[varid].value = message.values[idx].value;
+                this.setSignalValue(this.variables[varid]);
+            }
+        })
     }
 
     /**
      * Ask device status to backend
      */
     public askDeviceValues() {
-        if (this.socket) {
-            this.socket.emit('device-values', 'get');
-        }
+        // if (this.socket) {
+        //     this.socket.emit('device-values', 'get');
+        // }
+
+        let sub = this.http.get<any>(this.endPointConfig + 'device-values').subscribe((message) => {
+            for (let idx = 0; idx < message.values.length; idx++) {
+                let varid = message.id + HmiService.separator + message.values[idx].id;
+                if (!this.variables[varid]) {
+                    this.variables[varid] = new Variable(varid, message.id, message.values[idx].id);
+                }
+                this.variables[varid].value = message.values[idx].value;
+                this.setSignalValue(this.variables[varid]);
+            }
+        })
     }
 
     public getAllSignals() {
@@ -151,29 +174,32 @@ export class HmiService {
      * Ask device browse to backend
      */
     public askDeviceBrowse(deviceId: string, node: any) {
-        if (this.socket) {
-            let msg = { device: deviceId, node: node };
-            this.socket.emit('device-browse', msg);
-        }
+        let msg = { device: deviceId, node: node };
+        // this.socket.emit('device-browse', msg);
+        let sub = this.http.get<any>(this.endPointConfig + 'device-browse', { params: msg }).subscribe((message) => {
+            this.onDeviceBrowse.emit(message);
+        })
     }
 
     /**
      * Ask device node attribute to backend
      */
     public askNodeAttributes(deviceId: string, node: any) {
-        if (this.socket) {
-            let msg = { device: deviceId, node: node };
-            this.socket.emit('device-node-attribute', msg);
-        }
-    }    
+        let msg = { device: deviceId, node: node };
+        // this.socket.emit('device-node-attribute', msg);
+
+        let sub = this.http.get<any>(this.endPointConfig + 'device-node-attribute', { params: msg }).subscribe((message) => {
+            this.onDeviceNodeAttribute.emit(message);
+        })
+    }
     //#endregion
 
     //#region Signals Gauges Mapping
     /**
      * map the dom view with signal and gauge settings
-     * @param domViewId 
-     * @param signalId 
-     * @param ga 
+     * @param domViewId
+     * @param signalId
+     * @param ga
      */
     addSignalGaugeToMap(domViewId: string, signalId: string, ga: GaugeSettings) {
         this.viewSignalGaugeMap.add(domViewId, signalId, ga);
@@ -194,7 +220,7 @@ export class HmiService {
 
     /**
      * remove mapped dom view Gauges
-     * @param domViewId 
+     * @param domViewId
      */
     removeSignalGaugeFromMap(domViewId: string) {
         this.viewSignalGaugeMap.remove(domViewId);
@@ -202,8 +228,8 @@ export class HmiService {
 
     /**
      * get the gauges settings list of mapped dom view with the signal
-     * @param domViewId 
-     * @param sigid 
+     * @param domViewId
+     * @param sigid
      */
     getMappedSignalsGauges(domViewId: string, sigid: string): GaugeSettings[] {
         return Object.values(this.viewSignalGaugeMap.signalsGauges(domViewId, sigid));
