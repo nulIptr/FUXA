@@ -1,12 +1,9 @@
 import { Directive, HostListener, OnInit } from '@angular/core';
 import { MatDialogContainer, MatDialogRef } from '@angular/material';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
-import { takeUntil } from 'rxjs/operators/takeUntil';
-import 'rxjs/add/observable/fromEvent';
-import { take } from 'rxjs/operators/take';
+import { Subscription ,  Observable } from 'rxjs';
+import { takeUntil ,  take } from 'rxjs/operators';
 import { ModalPositionCache, Position } from './modal-position.cache';
-
+import { fromEvent } from 'rxjs'
 @Directive({
   selector: '[mat-dialog-draggable]'
 })
@@ -40,10 +37,10 @@ export class DialogDraggableDirective implements OnInit {
   onMouseDown(event: MouseEvent) {
     this.mouseStart = {x: event.pageX, y: event.pageY};
 
-    const mouseup$ = Observable.fromEvent(document, 'mouseup');
+    const mouseup$ = fromEvent(document, 'mouseup');
     this._subscription = mouseup$.subscribe(() => this.onMouseup());
 
-    const mousemove$ = Observable.fromEvent(document, 'mousemove')
+    const mousemove$ = fromEvent(document, 'mousemove')
       .pipe(takeUntil(mouseup$))
       .subscribe((e: MouseEvent) => this.onMouseMove(e));
 

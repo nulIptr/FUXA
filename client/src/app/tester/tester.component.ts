@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GaugesManager } from '../gauges/gauges.component';
-import { Subscription } from "rxjs";
-import { Observable } from 'rxjs/Rx';
-
+import { Subscription ,  Observable } from "rxjs";
+import { timer } from 'rxjs';
 import { HmiService } from '../_services/hmi.service';
 import { TesterService } from '../tester/tester.service';
 import { GaugeSettings, Variable } from '../_models/hmi';
@@ -83,8 +82,8 @@ export class TesterComponent implements OnInit {
 
   startDemo() {
     this.stopDemo();
-    let timer = Observable.timer(2000, 1500);
-    this.subscription = timer.subscribe(t => {
+    let t = timer(2000);
+    this.subscription = t.subscribe(t => {
       this.demoValue();
     });
   }

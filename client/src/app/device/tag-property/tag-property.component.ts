@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Subscription } from "rxjs/Subscription";
+import { Subscription } from "rxjs";
 
 import { Device, TagType, Tag, DeviceType } from './../../_models/device';
 import { TreetableComponent, Node } from '../../gui-helpers/treetable/treetable.component';

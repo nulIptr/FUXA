@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
-import { Subscription } from "rxjs/Subscription";
+import { Subscription } from "rxjs";
 
 import { Hmi, View, GaugeSettings, Event, GaugeEventActionType } from '../_models/hmi';
 import { GaugesManager } from '../gauges/gauges.component';
