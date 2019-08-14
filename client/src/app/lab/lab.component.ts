@@ -25,8 +25,8 @@ export class LabComponent implements OnInit, AfterViewInit {
     componentRef: any;
     labView: View = null;
 
-    @ViewChild('messagecontainer', { read: ViewContainerRef }) entry: ViewContainerRef;
-    @ViewChild('tester') tester: TesterComponent;
+    @ViewChild('messagecontainer', { static: true, read: ViewContainerRef }) entry: ViewContainerRef;
+    @ViewChild('tester', { static: true }) tester: TesterComponent;
 
     constructor(private projectService: ProjectService,
         private gaugesManager: GaugesManager,

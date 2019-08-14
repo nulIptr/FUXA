@@ -23,7 +23,7 @@ export class FlexHeadComponent implements OnInit {
 
   @Input() data: any;
   @Input() property: GaugeProperty;
-  @ViewChild('flexinput') flexInput: FlexInputComponent;
+  @ViewChild('flexinput', { static: true }) flexInput: FlexInputComponent;
 
   variable: any;
   withAlarm = false;

@@ -20,7 +20,7 @@ export class FuxaViewComponent implements OnInit, AfterViewInit {
   @Input() gaugesManager: GaugesManager;
   @Input() parentcards: CardModel[];
 
-  @ViewChild('dataContainer') dataContainer: ElementRef;
+  @ViewChild('dataContainer', { static: true }) dataContainer: ElementRef;
 
   public cards: CardModel[] = [];
   public dialog: DialogModalModel;

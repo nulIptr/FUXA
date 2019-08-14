@@ -3,10 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  MatButtonModule, MatFormFieldModule, MatInputModule, MatSelect,
-  MatSelectModule
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Subject } from 'rxjs/Subject';
 import { take, takeUntil } from 'rxjs/operators';
@@ -32,10 +32,10 @@ interface Bank {
     </mat-form-field>
   `,
 })
-export class MatSelectSearchTestComponent implements OnInit, OnDestroy {
+class MatSelectSearchTestComponent implements OnInit, OnDestroy {
 
-  @ViewChild(MatSelect) matSelect: MatSelect;
-  @ViewChild(MatSelectSearchComponent) matSelectSearch: MatSelectSearchComponent;
+  @ViewChild(MatSelect, { static: true }) matSelect: MatSelect;
+  @ViewChild(MatSelectSearchComponent, { static: true }) matSelectSearch: MatSelectSearchComponent;
 
   // control for the selected bank
   public bankCtrl: FormControl = new FormControl();

@@ -1,13 +1,12 @@
 import { Component, Inject, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MatIconRegistry } from '@angular/material';
+import { MatIconRegistry } from '@angular/material/icon';
 import { Subscription } from 'rxjs';
 
 import { ProjectService } from '../_services/project.service';
 import { Hmi, View, GaugeSettings, SelElement } from '../_models/hmi';
 import { WindowRef } from '../_helpers/windowref';
-import { Output } from '@angular/core/src/metadata/directives';
 import { GaugePropertyComponent, GaugeDialogType } from '../gauges/gauge-property/gauge-property.component';
 import { LayoutPropertyComponent } from './layout-property/layout-property.component';
 
@@ -16,9 +15,7 @@ import { GaugeBaseComponent } from '../gauges/gauge-base/gauge-base.component'
 import { Utils } from '../_helpers/utils';
 import { ConfirmDialogComponent } from '../gui-helpers/confirm-dialog/confirm-dialog.component';
 
-import * as FileSaver from 'file-saver';
-import { HtmlButtonComponent } from '../gauges/controls/html-button/html-button.component';
-import { GaugeProgressComponent } from '../gauges/controls/gauge-progress/gauge-progress.component';
+
 
 declare var Gauge: any;
 
@@ -53,7 +50,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     // currentUser: User;
     // users: User[] = [];
     // @ViewChild('fillcolor') fillcolor: ElementRef;
-    @ViewChild('gaugepanel') gaugePanelComponent: GaugeBaseComponent;
+    @ViewChild('gaugepanel', { static: false }) gaugePanelComponent: GaugeBaseComponent;
 
     defaultColor = Utils.defaultColor;
     colorFill: string = '#FFFFFF'

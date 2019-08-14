@@ -1,5 +1,5 @@
 import { Directive, HostListener, OnInit } from '@angular/core';
-import { MatDialogContainer, MatDialogRef } from '@angular/material';
+import { MatDialogContainer, MatDialogRef } from '@angular/material/dialog';
 import { Subscription ,  Observable } from 'rxjs';
 import { takeUntil ,  take } from 'rxjs/operators';
 import { ModalPositionCache, Position } from './modal-position.cache';

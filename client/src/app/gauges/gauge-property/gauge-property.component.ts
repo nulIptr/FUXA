@@ -13,8 +13,8 @@ import { GaugeProperty, View } from '../../_models/hmi';
 export class GaugePropertyComponent implements OnInit {
 
   @Input() name: any;
-  @ViewChild('flexhead') flexHead: FlexHeadComponent;
-  @ViewChild('flexevent') flexEvent: FlexEventComponent;
+  @ViewChild('flexhead', { static: false }) flexHead: FlexHeadComponent;
+  @ViewChild('flexevent', { static: false }) flexEvent: FlexEventComponent;
 
   withAlarm = false;
   slideView = true;

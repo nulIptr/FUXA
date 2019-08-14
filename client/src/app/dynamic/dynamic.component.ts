@@ -11,7 +11,7 @@ export class DynamicComponent implements OnInit, OnDestroy {
   @Input() position = { x: 0, y: 0 };
   @Input() size = { width: 0, height: 0 };
   @Input() message: string;
-  @ViewChild('dataContainer') dataContainer: ElementRef;
+  @ViewChild('dataContainer', { static: true }) dataContainer: ElementRef;
 
   public closeComponent;
 

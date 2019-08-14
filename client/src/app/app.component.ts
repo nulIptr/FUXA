@@ -12,7 +12,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   title = 'app';
   location: Location;
 
-  @ViewChild('fabmenu')fabmenu: any; 
+  @ViewChild('fabmenu', { static: true })fabmenu: any; 
 
   constructor(private router: Router, location: Location) {
     this.location = location;

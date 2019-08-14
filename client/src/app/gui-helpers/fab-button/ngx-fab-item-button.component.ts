@@ -1,15 +1,15 @@
 import {
-    Component,
-    Input,
-    Output,
-    EventEmitter,
-    ViewChild,
-    ChangeDetectionStrategy
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 @Component({
-    selector: 'ngx-fab-item-button',
-    styles: [`
+  selector: 'ngx-fab-item-button',
+  styles: [`
   .item {
     /* width:40px; */
     height: 36px;
@@ -83,7 +83,7 @@ import {
     padding-left: 5px;
   }
   `],
-    template: `
+  template: `
     <div #elementref class="item {{ disabled ? 'disabled' : ''}}"
     (click)="emitClickEvent($event)">
         <a class="fab-item" [style.backgroundColor]="color">
@@ -99,35 +99,35 @@ import {
         </div>
     </div>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgxFabItemButtonComponent {
-    @Input() icon: string;
-    @Input() svgicon: string;
-    @Input() iconex: string;
-    @Input() svgiconex: string;
-    @Input() content: string;
-    @Input() color = 'white';
-    @Output() clicked: EventEmitter<any> = new EventEmitter();
-    @Output() exclicked: EventEmitter<any> = new EventEmitter();
-    @Input() disabled = false;
-    @ViewChild('elementref') elementref;
-    @ViewChild('contentref') contentref;
+  @Input() icon: string;
+  @Input() svgicon: string;
+  @Input() iconex: string;
+  @Input() svgiconex: string;
+  @Input() content: string;
+  @Input() color = 'white';
+  @Output() clicked: EventEmitter<any> = new EventEmitter();
+  @Output() exclicked: EventEmitter<any> = new EventEmitter();
+  @Input() disabled = false;
+  @ViewChild('elementref', { static: true }) elementref;
+  @ViewChild('contentref', { static: true }) contentref;
 
-    emitClickEvent($event: Event) {
-        if (this.disabled) {
-            return this.disabled;
-        }
-        this.clicked.emit($event);
+  emitClickEvent($event: Event) {
+    if (this.disabled) {
+      return this.disabled;
     }
-    emitClickExEvent($event: Event) {
-        if (this.disabled) {
-            return this.disabled;
-        }
-        this.exclicked.emit($event);
+    this.clicked.emit($event);
+  }
+  emitClickExEvent($event: Event) {
+    if (this.disabled) {
+      return this.disabled;
     }
+    this.exclicked.emit($event);
+  }
 
-    public stopPropagation($event: Event) {
-        $event.stopPropagation();
-    }
+  public stopPropagation($event: Event) {
+    $event.stopPropagation();
+  }
 }

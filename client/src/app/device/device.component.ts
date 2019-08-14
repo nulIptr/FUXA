@@ -14,8 +14,8 @@ import { HmiService } from '../_services/hmi.service';
 })
 export class DeviceComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  @ViewChild('devicelist') deviceList: DeviceListComponent;
-  @ViewChild('devicemap') deviceMap: DeviceMapComponent;
+  @ViewChild('devicelist', { static: true }) deviceList: DeviceListComponent;
+  @ViewChild('devicemap', { static: true }) deviceMap: DeviceMapComponent;
 
   private subscriptionSave: Subscription;
   private subscriptionLoad: Subscription;
