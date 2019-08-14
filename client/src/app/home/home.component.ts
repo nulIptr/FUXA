@@ -19,10 +19,10 @@ import { Hmi, View, NaviModeType } from '../_models/hmi';
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild('sidenav', { static: true }) sidenav: SidenavComponent;
-  @ViewChild('matsidenav', { static: true }) matsidenav: MatSidenav;
+  @ViewChild('sidenav', { static: false }) sidenav: SidenavComponent;
+  @ViewChild('matsidenav', { static: false }) matsidenav: MatSidenav;
   @ViewChild('fuxaview', { static: true }) fuxaview: FuxaViewComponent;
-  // @ViewChild('iframeview') iframeview: IframeComponent;
+  @ViewChild('iframeview', { static: true }) iframeview: IframeComponent;
 
   homeView: View = new View();
   hmi: Hmi = new Hmi();
@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private projectService: ProjectService,
     private router: Router,
     private hmiService: HmiService,
-    private gaugesManager: GaugesManager) { }
+    public gaugesManager: GaugesManager) { }
 
   ngOnInit() {
     try {

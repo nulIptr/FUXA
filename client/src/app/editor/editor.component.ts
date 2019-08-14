@@ -21,7 +21,7 @@ declare var Gauge: any;
 
 declare var $: any;
 declare var svgEditor: any;
-declare var mypathseg: any;         ///< svg-editor component
+declare var mypathseg: any;         // < svg-editor component
 declare var initPathSeg: any;
 declare var mybrowser: any;
 declare var initBrowser: any;
@@ -106,8 +106,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             this.subscriptionLoad = this.projectService.onLoadHmi.subscribe(load => {
                 this.loadHmi();
             });
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e);
         }
     }
@@ -194,8 +193,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             $(initLocale);
             $(initContextmenu);
             console.log('myInit End');
-        }
-        catch (Error) {
+        } catch (Error) {
             console.log(Error);
         }
         // mycontextmenu.initContextmenu();
@@ -463,8 +461,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     setStrokeColor(event) {
         let color = event;
-        if (color.charAt(0) === '#')
+        if (color.charAt(0) === '#') {
             color = color.slice(1);
+        }
         let alfa = 100;
         this.winRef.nativeWindow.svgEditor.setColor(color, alfa, "stroke");
         // this.fillcolor;
