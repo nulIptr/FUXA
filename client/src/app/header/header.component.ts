@@ -123,7 +123,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         let reader = new FileReader();
         reader.onload = (data) => {
             // console.log(reader.result);
-            let prj = JSON.parse(reader.result);
+            let prj = JSON.parse(reader.result.toString());
             this.projectService.setProject(prj, true);
         }
 

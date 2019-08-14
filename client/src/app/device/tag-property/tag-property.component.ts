@@ -5,7 +5,6 @@ import { Subscription } from "rxjs";
 import { Device, TagType, Tag, DeviceType } from './../../_models/device';
 import { TreetableComponent, Node } from '../../gui-helpers/treetable/treetable.component';
 import { HmiService } from '../../_services/hmi.service';
-import { t } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-tag-property',
