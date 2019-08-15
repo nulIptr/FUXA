@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy, Inject, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Subscription } from "rxjs/Subscription";
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subscription } from "rxjs";
 
 import { Device, TagType, Tag, DeviceType } from './../../_models/device';
 import { TreetableComponent, Node } from '../../gui-helpers/treetable/treetable.component';
 import { HmiService } from '../../_services/hmi.service';
-import { t } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-tag-property',
@@ -23,7 +22,7 @@ export class TagPropertyComponent implements OnInit, OnDestroy {
   private subscriptionBrowse: Subscription;
   private subscriptionNodeAttribute: Subscription;
 
-  @ViewChild(TreetableComponent) treetable: TreetableComponent;
+  @ViewChild(TreetableComponent, { static: true }) treetable: TreetableComponent;
 
   constructor(
     private hmiService: HmiService,

@@ -70,6 +70,9 @@ import { HtmlSelectComponent } from './gauges/controls/html-select/html-select.c
 import { GaugeProgressComponent } from './gauges/controls/gauge-progress/gauge-progress.component';
 import { GaugeSemaphoreComponent } from './gauges/controls/gauge-semaphore/gauge-semaphore.component';
 
+
+//import { MatSelectSearchTestComponent } from './gui-helpers/mat-select-search/mat-select-search.component';
+
 @NgModule({
   declarations: [
     HomeComponent,

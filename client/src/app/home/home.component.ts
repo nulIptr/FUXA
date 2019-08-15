@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
-import { Subscription } from "rxjs/Subscription";
-import { MatSidenav } from '@angular/material';
+import { Subscription } from "rxjs";
+import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 
 import { SidenavComponent } from '../sidenav/sidenav.component';
@@ -19,10 +19,10 @@ import { Hmi, View, NaviModeType } from '../_models/hmi';
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild('sidenav') sidenav: SidenavComponent;
-  @ViewChild('matsidenav') matsidenav: MatSidenav;
-  @ViewChild('fuxaview') fuxaview: FuxaViewComponent;
-  // @ViewChild('iframeview') iframeview: IframeComponent;
+  @ViewChild('sidenav', { static: false }) sidenav: SidenavComponent;
+  @ViewChild('matsidenav', { static: false }) matsidenav: MatSidenav;
+  @ViewChild('fuxaview', { static: true }) fuxaview: FuxaViewComponent;
+  @ViewChild('iframeview', { static: true }) iframeview: IframeComponent;
 
   homeView: View = new View();
   hmi: Hmi = new Hmi();

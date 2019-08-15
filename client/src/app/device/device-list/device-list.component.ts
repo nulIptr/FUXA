@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-import { MatTable, MatTableDataSource, MatSort, MatMenuTrigger } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { MatSort } from '@angular/material/sort';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 import { TagPropertyComponent } from './../tag-property/tag-property.component';
 import { Tag, Device, DeviceType } from '../../_models/device';
@@ -29,9 +31,9 @@ export class DeviceListComponent implements OnInit {
   @Output() save = new EventEmitter();
   @Output() goto = new EventEmitter();
 
-  @ViewChild(MatTable) table: MatTable<any>;
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
+  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatMenuTrigger, { static: true }) trigger: MatMenuTrigger;
 
   constructor(private dialog: MatDialog,
     private hmiService: HmiService,

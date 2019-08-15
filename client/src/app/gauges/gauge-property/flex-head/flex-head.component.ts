@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { ReplaySubject ,  Subject } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { take, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs/Subject';
 
 import { FlexInputComponent } from '../flex-input/flex-input.component';
 import { GaugeProperty } from '../../../_models/hmi';
@@ -24,7 +23,7 @@ export class FlexHeadComponent implements OnInit {
 
   @Input() data: any;
   @Input() property: GaugeProperty;
-  @ViewChild('flexinput') flexInput: FlexInputComponent;
+  @ViewChild('flexinput', { static: true }) flexInput: FlexInputComponent;
 
   variable: any;
   withAlarm = false;

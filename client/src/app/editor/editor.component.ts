@@ -1,13 +1,12 @@
-﻿import { Component, Inject, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Component, Inject, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MatIconRegistry } from '@angular/material';
-import { Subscription } from 'rxjs/Subscription';
+import { MatIconRegistry } from '@angular/material/icon';
+import { Subscription } from 'rxjs';
 
 import { ProjectService } from '../_services/project.service';
 import { Hmi, View, GaugeSettings, SelElement } from '../_models/hmi';
 import { WindowRef } from '../_helpers/windowref';
-import { Output } from '@angular/core/src/metadata/directives';
 import { GaugePropertyComponent, GaugeDialogType } from '../gauges/gauge-property/gauge-property.component';
 import { LayoutPropertyComponent } from './layout-property/layout-property.component';
 
@@ -16,15 +15,13 @@ import { GaugeBaseComponent } from '../gauges/gauge-base/gauge-base.component'
 import { Utils } from '../_helpers/utils';
 import { ConfirmDialogComponent } from '../gui-helpers/confirm-dialog/confirm-dialog.component';
 
-import * as FileSaver from 'file-saver';
-import { HtmlButtonComponent } from '../gauges/controls/html-button/html-button.component';
-import { GaugeProgressComponent } from '../gauges/controls/gauge-progress/gauge-progress.component';
+
 
 declare var Gauge: any;
 
 declare var $: any;
 declare var svgEditor: any;
-declare var mypathseg: any;         ///< svg-editor component
+declare var mypathseg: any;         // < svg-editor component
 declare var initPathSeg: any;
 declare var mybrowser: any;
 declare var initBrowser: any;
@@ -53,7 +50,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     // currentUser: User;
     // users: User[] = [];
     // @ViewChild('fillcolor') fillcolor: ElementRef;
-    @ViewChild('gaugepanel') gaugePanelComponent: GaugeBaseComponent;
+    @ViewChild('gaugepanel', { static: false }) gaugePanelComponent: GaugeBaseComponent;
 
     defaultColor = Utils.defaultColor;
     colorFill: string = '#FFFFFF'
@@ -109,8 +106,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             this.subscriptionLoad = this.projectService.onLoadHmi.subscribe(load => {
                 this.loadHmi();
             });
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e);
         }
     }
@@ -197,8 +193,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             $(initLocale);
             $(initContextmenu);
             console.log('myInit End');
-        }
-        catch (Error) {
+        } catch (Error) {
             console.log(Error);
         }
         // mycontextmenu.initContextmenu();
@@ -466,8 +461,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     setStrokeColor(event) {
         let color = event;
-        if (color.charAt(0) === '#')
+        if (color.charAt(0) === '#') {
             color = color.slice(1);
+        }
         let alfa = 100;
         this.winRef.nativeWindow.svgEditor.setColor(color, alfa, "stroke");
         // this.fillcolor;

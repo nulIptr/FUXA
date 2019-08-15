@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
-import { Subscription } from "rxjs/Subscription";
+import { Subscription } from "rxjs";
 
 import { DeviceListComponent } from './device-list/device-list.component';
 import { DeviceMapComponent } from './device-map/device-map.component';
@@ -14,8 +14,8 @@ import { HmiService } from '../_services/hmi.service';
 })
 export class DeviceComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  @ViewChild('devicelist') deviceList: DeviceListComponent;
-  @ViewChild('devicemap') deviceMap: DeviceMapComponent;
+  @ViewChild('devicelist', { static: true }) deviceList: DeviceListComponent;
+  @ViewChild('devicemap', { static: true }) deviceMap: DeviceMapComponent;
 
   private subscriptionSave: Subscription;
   private subscriptionLoad: Subscription;

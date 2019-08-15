@@ -1,7 +1,7 @@
 import { Component, Inject, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from "rxjs/Subscription";
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Subscription } from "rxjs";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { environment } from '../../environments/environment';
 
@@ -17,8 +17,8 @@ import { TutorialComponent } from '../help/tutorial/tutorial.component';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-    @ViewChild('sidenav')sidenav: any; 
-    @ViewChild('tutorial') tutorial: TutorialComponent;
+    @ViewChild('sidenav', { static: true })sidenav: any; 
+    @ViewChild('tutorial', {static: true}) tutorial: TutorialComponent;
 
     ineditor: boolean = false;
     winele: boolean = false;
@@ -123,7 +123,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         let reader = new FileReader();
         reader.onload = (data) => {
             // console.log(reader.result);
-            let prj = JSON.parse(reader.result);
+            let prj = JSON.parse(reader.result.toString());
             this.projectService.setProject(prj, true);
         }
 

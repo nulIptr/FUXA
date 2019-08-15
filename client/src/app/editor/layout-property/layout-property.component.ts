@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { DndDropEvent, DropEffect } from 'ngx-drag-drop';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { LayoutSettings, NaviModeType, NaviItem, NaviItemType } from '../../_models/hmi';
 import { Define } from '../../_helpers/define';

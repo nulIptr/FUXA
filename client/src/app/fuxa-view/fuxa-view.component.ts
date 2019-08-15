@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
-import { Subscription } from "rxjs/Subscription";
+import { Subscription } from "rxjs";
 
 import { Hmi, View, GaugeSettings, Event, GaugeEventActionType, Variable } from '../_models/hmi';
 import { GaugesManager } from '../gauges/gauges.component';
@@ -20,7 +20,7 @@ export class FuxaViewComponent implements OnInit, AfterViewInit {
   @Input() gaugesManager: GaugesManager;
   @Input() parentcards: CardModel[];
 
-  @ViewChild('dataContainer') dataContainer: ElementRef;
+  @ViewChild('dataContainer', { static: true }) dataContainer: ElementRef;
 
   public cards: CardModel[] = [];
   public dialog: DialogModalModel;
