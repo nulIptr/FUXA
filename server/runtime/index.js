@@ -98,7 +98,7 @@ function init(_io, _api, _settings, log) {
             } catch (err) {
                 logger.error('socket.on:device-values error: ' + err);
             }
-        });        
+        });
     });
 }
 

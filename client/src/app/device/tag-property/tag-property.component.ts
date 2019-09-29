@@ -17,6 +17,8 @@ export class TagPropertyComponent implements OnInit, OnDestroy {
   error: string;
   existing: string[] = [];
   withtree: boolean = false;
+  isToRemove: boolean = false;
+
   config = { width: '100%', height: '600px' };
 
   private subscriptionBrowse: Subscription;

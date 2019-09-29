@@ -1,5 +1,5 @@
 'use strict';
-import { create } from "./device";
+var Device = require("./device");
 
 var deviceList = [];
 var activeDevices = {};
@@ -50,9 +50,9 @@ function stop() {
 }
 
 function update() {
-    _stop().then(function () {
-        _load();
-        _start().then(function () {
+    devices.stop().then(function () {
+        devices.load();
+        devices.start().then(function () {
             // devices.woking = null;
         }).catch(function (err) {
             console.log('devices start error');
@@ -79,7 +79,7 @@ function load() {
                 runtime.logger.info("device exist: " + devices[id].id);
             } else {
                 // device create
-                activeDevices[id] = create(devices[id], runtime.logger, runtime.events);
+                activeDevices[id] = Device.create(devices[id], runtime.logger, runtime.events);
                 runtime.logger.info("device created: " + devices[id].id);
             }
         }
@@ -108,7 +108,7 @@ function getDevicesValues() {
     return adev;
 }
 
-function isWoking() { 
+function isWoking() {
     return (wokingStatus) ? true : false;
 }
 

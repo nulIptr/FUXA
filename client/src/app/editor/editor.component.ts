@@ -363,7 +363,10 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
      * check with the current mode
      * @param mode mode to check
      */
-    private isModeActive(mode) {
+    public
+    
+    
+    isModeActive(mode) {
         return (this.currentMode === mode)
     }
 
